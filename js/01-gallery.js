@@ -21,18 +21,24 @@ const addGalleryItems = galleryItems.map((item) =>`
 galleryWrapper.insertAdjacentHTML('beforeend', addGalleryItems);
 galleryWrapper.addEventListener('click', handle);
 
-
+let instance = '';
 function handle(item) { 
    
     item.preventDefault();   
-    const instance = basicLightbox.create(`<img src="${item.target.dataset.source}" width="800" height="600">`);
+    instance = basicLightbox.create(`<img src="${item.target.dataset.source}" width="800" height="600">`);
 
-    instance.show();  
+    instance.show(); 
+    document.addEventListener('keydown', keydownHandler);
     
-    document.addEventListener('keydown', event => { 
-        if (event.key === "Escape") { 
-            instance.close();
-        }
-    }); 
 }
+
+function keydownHandler(event) { 
+        
+    if (event.key === "Escape") {
+       instance.close();
+        document.removeEventListener('keydown', keydownHandler);
+    }
+}
+
+
 
